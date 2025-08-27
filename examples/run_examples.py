@@ -56,7 +56,7 @@ async def main():
     print("✅ API server is healthy")
     
     # Run examples
-    examples = ["user_crud.py", "item_crud.py"]
+    examples = ["user_crud.py", "item_crud.py", "auth_example.py", "user_crud_auth.py"]
     results = []
     
     print(f"\n📋 Running {len(examples)} examples:")

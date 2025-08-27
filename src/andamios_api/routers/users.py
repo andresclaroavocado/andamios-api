@@ -1,14 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from passlib.context import CryptContext
 from andamios_api.schemas.user import UserCreate, UserUpdate, UserResponse
 from andamios_api.models.user import User
+from andamios_api.routers.auth import get_current_user
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
 
 @router.get("/", response_model=List[UserResponse])
-async def get_users():
+async def get_users(current_user: User = Depends(get_current_user)):
     users = await User.list()
     return [UserResponse(
         id=user.id,
@@ -17,7 +18,7 @@ async def get_users():
     ) for user in users]
 
 @router.post("/", response_model=UserResponse)
-async def create_user(user: UserCreate):
+async def create_user(user: UserCreate, current_user: User = Depends(get_current_user)):
     hashed_password = pwd_context.hash(user.password)
     new_user = await User.create(
         name=user.name,
@@ -31,7 +32,7 @@ async def create_user(user: UserCreate):
     )
 
 @router.get("/{user_id}", response_model=UserResponse)
-async def get_user(user_id: int):
+async def get_user(user_id: int, current_user: User = Depends(get_current_user)):
     user = await User.read(user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -42,7 +43,7 @@ async def get_user(user_id: int):
     )
 
 @router.put("/{user_id}", response_model=UserResponse)
-async def update_user(user_id: int, user_update: UserUpdate):
+async def update_user(user_id: int, user_update: UserUpdate, current_user: User = Depends(get_current_user)):
     # Filter out None values for partial updates
     update_data = {k: v for k, v in user_update.dict().items() if v is not None}
     
@@ -60,7 +61,7 @@ async def update_user(user_id: int, user_update: UserUpdate):
     )
 
 @router.delete("/{user_id}")
-async def delete_user(user_id: int):
+async def delete_user(user_id: int, current_user: User = Depends(get_current_user)):
     result = await User.delete(user_id)
     if not result:
         raise HTTPException(status_code=404, detail="User not found")

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from andamios_orm import initialize_database
-from andamios_api.routers import users, items
+from andamios_api.routers import users, items, auth
 from andamios_api.core.config import settings
 
 # Import models to register them with SQLAlchemy metadata
@@ -39,6 +39,7 @@ app = FastAPI(
 )
 
 # Include routers
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(items.router, prefix="/api/v1/items", tags=["items"])
 

@@ -4,21 +4,27 @@ Ultra-simple Example-Driven Development (EDD) examples. Each example demonstrate
 
 ## Examples Structure
 
-**1 comprehensive example per resource × 2 resources = 2 total examples**
+**1 comprehensive example per resource + authentication examples = 4 total examples**
 
 ### Complete CRUD Examples
 - **`user_crud.py`** - User: Complete CREATE → READ → UPDATE → DELETE operations
 - **`item_crud.py`** - Item: Complete CREATE → READ → UPDATE → DELETE operations
 
+### Authentication Examples  
+- **`auth_example.py`** - Complete login/logout/protected access flow
+- **`user_crud_auth.py`** - User CRUD with JWT authentication
+
 ## Running Examples
 
 ```bash
 # First, start the API server
-uvicorn src.andamios_api.main:app --reload
+uvicorn src.andamios_api.main:app --port 8001 --reload
 
 # Then run any specific example
 python examples/basic/user_crud.py
 python examples/basic/item_crud.py
+python examples/basic/auth_example.py
+python examples/basic/user_crud_auth.py
 
 # Run all examples
 python examples/run_examples.py
