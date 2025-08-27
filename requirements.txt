@@ -1,7 +1,8 @@
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
 pydantic>=2.5.0
-andamios-orm  # Will be installed from PyPI or git+https when available
+pydantic-settings>=2.0.0
+-e ./andamios-orm  # Local development installation
 python-multipart
 python-jose[cryptography]
 passlib[bcrypt]

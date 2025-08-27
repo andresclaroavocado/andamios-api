@@ -13,7 +13,7 @@ import httpx
 async def main():
     print("🚀 Item CRUD Operations")
     
-    async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
+    async with httpx.AsyncClient(base_url="http://localhost:8001") as client:
         
         # CREATE
         item_data = {

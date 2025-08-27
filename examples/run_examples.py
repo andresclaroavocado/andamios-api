@@ -17,7 +17,7 @@ async def check_api_health():
     """Check if API server is running"""
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get("http://localhost:8000/health", timeout=2.0)
+            response = await client.get("http://localhost:8001/health", timeout=2.0)
             return response.status_code == 200
     except:
         return False
@@ -50,8 +50,8 @@ async def main():
     # Check API health
     print("🏥 Checking API server health...")
     if not await check_api_health():
-        print("❌ API server not available at http://localhost:8000")
-        print("   Start server with: uvicorn src.andamios_api.main:app --reload")
+        print("❌ API server not available at http://localhost:8001")
+        print("   Start server with: uvicorn src.andamios_api.main:app --port 8001 --reload")
         return
     print("✅ API server is healthy")
     
