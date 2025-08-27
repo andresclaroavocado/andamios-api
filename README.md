@@ -18,12 +18,13 @@ Andamios API is designed as a lightweight API layer that delegates all database 
 
 ```
 andamios-api/
-├── andamios_api/
-│   ├── core/           # Core configuration and utilities
-│   ├── models/         # Pydantic models (not DB models)
-│   ├── routers/        # FastAPI route handlers
-│   ├── schemas/        # Request/response schemas
-│   └── utils/          # Utility functions
+├── src/
+│   └── andamios_api/   # Main package
+│       ├── core/       # Core configuration and utilities
+│       ├── models/     # Pydantic models (not DB models)
+│       ├── routers/    # FastAPI route handlers
+│       ├── schemas/    # Request/response schemas
+│       └── utils/      # Utility functions
 ├── examples/           # Usage examples
 ├── tests/             # Test suite
 └── docs/              # Additional documentation
@@ -49,7 +50,7 @@ pip install -e .
 
 ```bash
 # Start the development server
-uvicorn andamios_api.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.andamios_api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 The API will be available at:

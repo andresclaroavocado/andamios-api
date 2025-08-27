@@ -47,7 +47,7 @@ Repository = "https://github.com/andresclaroavocado/andamios-api.git"
 Issues = "https://github.com/andresclaroavocado/andamios-api/issues"
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 include = ["andamios_api*"]
 
 [tool.black]
