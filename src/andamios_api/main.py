@@ -1,8 +1,14 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 from andamios_orm import initialize_database
 from andamios_api.routers import users, items, auth
 from andamios_api.core.config import settings
+from andamios_api.core.exceptions import (
+    http_exception_handler,
+    validation_exception_handler,
+    general_exception_handler
+)
 
 # Import models to register them with SQLAlchemy metadata
 from andamios_api.models.user import User
@@ -37,6 +43,11 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan
 )
+
+# Register exception handlers
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
 
 # Include routers
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
