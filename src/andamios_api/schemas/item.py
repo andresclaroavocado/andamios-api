@@ -8,6 +8,10 @@ class ItemBase(BaseModel):
 class ItemCreate(ItemBase):
     pass
 
+class ItemUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+
 class ItemResponse(ItemBase):
     id: int
     

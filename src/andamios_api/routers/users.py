@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 from passlib.context import CryptContext
-from andamios_api.schemas.user import UserCreate, UserResponse
+from andamios_api.schemas.user import UserCreate, UserUpdate, UserResponse
 from andamios_api.models.user import User
 
 router = APIRouter()
@@ -39,6 +39,24 @@ async def get_user(user_id: int):
         id=user.id,
         email=user.email,
         name=user.name
+    )
+
+@router.put("/{user_id}", response_model=UserResponse)
+async def update_user(user_id: int, user_update: UserUpdate):
+    # Filter out None values for partial updates
+    update_data = {k: v for k, v in user_update.dict().items() if v is not None}
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
+    updated_user = await User.update(user_id, **update_data)
+    if not updated_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return UserResponse(
+        id=updated_user.id,
+        email=updated_user.email,
+        name=updated_user.name
     )
 
 @router.delete("/{user_id}")

@@ -36,11 +36,11 @@ async def main():
         users = response.json()
         print("📋 all users:", len(users))              # expected: >= 1
         
-        # UPDATE (when implemented)
-        # updated_data = {"name": "John Updated", "email": "john.updated@example.com"}
-        # response = await client.put(f"/api/v1/users/{user['id']}", json=updated_data)
-        # updated = response.json()
-        # print("✏️ updated:", updated["name"], updated["email"])
+        # UPDATE
+        updated_data = {"name": "John Updated", "email": "john.updated@example.com"}
+        response = await client.put(f"/api/v1/users/{user['id']}", json=updated_data)
+        updated = response.json()
+        print("✏️ updated:", updated["name"], updated["email"])  # expected: "John Updated", "john.updated@example.com"
         
         # DELETE
         response = await client.delete(f"/api/v1/users/{user['id']}")

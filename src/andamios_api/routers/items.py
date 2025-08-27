@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from andamios_api.schemas.item import ItemCreate, ItemResponse
+from andamios_api.schemas.item import ItemCreate, ItemUpdate, ItemResponse
 from andamios_api.models.item import Item
 
 router = APIRouter()
@@ -35,6 +35,24 @@ async def get_item(item_id: int):
         id=item.id,
         name=item.name,
         description=item.description
+    )
+
+@router.put("/{item_id}", response_model=ItemResponse)
+async def update_item(item_id: int, item_update: ItemUpdate):
+    # Filter out None values for partial updates
+    update_data = {k: v for k, v in item_update.dict().items() if v is not None}
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
+    updated_item = await Item.update(item_id, **update_data)
+    if not updated_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+    return ItemResponse(
+        id=updated_item.id,
+        name=updated_item.name,
+        description=updated_item.description
     )
 
 @router.delete("/{item_id}")

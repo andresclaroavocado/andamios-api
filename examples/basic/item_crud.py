@@ -35,11 +35,11 @@ async def main():
         items = response.json()
         print("📋 all items:", len(items))               # expected: >= 1
         
-        # UPDATE (when implemented)
-        # updated_data = {"name": "Updated Task", "description": "Updated description"}
-        # response = await client.put(f"/api/v1/items/{item['id']}", json=updated_data)
-        # updated = response.json()
-        # print("✏️ updated:", updated["name"], updated["description"])
+        # UPDATE
+        updated_data = {"name": "Updated Task", "description": "Updated description"}
+        response = await client.put(f"/api/v1/items/{item['id']}", json=updated_data)
+        updated = response.json()
+        print("✏️ updated:", updated["name"], updated["description"])  # expected: "Updated Task", "Updated description"
         
         # DELETE
         response = await client.delete(f"/api/v1/items/{item['id']}")
