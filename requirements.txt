@@ -8,4 +8,5 @@ python-jose[cryptography]
 passlib[bcrypt]
 pytest>=7.4.0
 pytest-asyncio
+pytest-cov
 httpx
